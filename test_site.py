@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromService
 from webdriver_manager.chrome import ChromeDriverManager
-
+from selenium.webdriver.chrome.options import Options
 
 URL = 'https://www.saucedemo.com/'
 
@@ -9,7 +9,13 @@ LOGIN = 'standard_user'
 PASSWORD = 'secret_sauce'
 
 def get_driver():
-  driver = webdriver.Chrome(service=ChromService(ChromeDriverManager().install()))
+  chrome_options = Options()
+  chrome_options.add_argument("--window-size=1920,800")
+  chrome_options.add_argument('--headless')
+  driver = webdriver.Chrome(service=ChromService(ChromeDriverManager().install()),
+                            options=chrome_options)
+  driver.maximize_window()
+  driver.implicitly_wait(10)
   return driver
 
 def open_page(driver, url):
